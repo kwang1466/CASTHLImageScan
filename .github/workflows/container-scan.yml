@@ -3,6 +3,7 @@ name: Container Image Scan
 on:
   push:
     branches: [main]     # Triggers on push to main branch, can be changed to other branches or events
+    workflow_dispatch:
 
 jobs:
   scan:
