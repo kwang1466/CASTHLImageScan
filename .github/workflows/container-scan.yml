@@ -2,7 +2,7 @@ name: Container Image Scan
 
 on:
   push:
-    branches: [main]     # 当主分支push时触发，也可换成你自己的分支或事件
+    branches: [main]     # Triggers on push to main branch, can be changed to other branches or events
 
 jobs:
   scan:
@@ -17,10 +17,11 @@ jobs:
           fail-build: true
           severity-cutoff: high
           output-format: json
+          output-file: anchore-scan-results.json
 
       - name: Upload Anchore scan JSON report
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: anchore-scan-report
-          path: ${{ steps.scan.outputs.json }}
+          path: anchore-scan-results.json
