@@ -1,0 +1,32 @@
+name: Container Image Scan
+
+on:
+  push:
+    branches: [main]     # Triggers on push to main branch, can be changed to other branches or events
+  workflow_dispatch:
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read      # Required to read repository content
+      actions: read       # Required to read actions artifacts
+
+    steps:
+      - name: Scan container image with Anchore
+        id: scan
+        uses: anchore/scan-action@v7
+        with:
+          image: casthighlight/cli:5.11.15
+          fail-build: true
+          severity-cutoff: high
+          output-format: json
+          output-file: anchore-scan-results.json
+
+      - name: Upload Anchore scan JSON report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: anchore-scan-report
+          path: anchore-scan-results.json
+          retention-days: 30
