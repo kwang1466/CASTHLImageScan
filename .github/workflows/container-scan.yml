@@ -7,6 +7,9 @@ on:
 jobs:
   scan:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read      # Required to read repository content
+      actions: read       # Required to read actions artifacts
 
     steps:
       - name: Scan container image with Anchore
