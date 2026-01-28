@@ -25,3 +25,4 @@ jobs:
         with:
           name: anchore-scan-report
           path: anchore-scan-results.json
+          retention-days: 30
